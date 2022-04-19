@@ -1,0 +1,16 @@
+CSC 340 TERM GROUP PROJECT PLAN OF ATTACK (Subject to change)
+
+***NECESSARY THINGS FOR PROPER PROGRAM EXECUTION***
+
+	1. Class to read and extract the data
+
+	2. Class(es) to store the necessary info (degree type, starting salary, median salary, percentage change, region, etc...)
+
+	3. Class(es) to manipulate the data class(es)
+
+	4. Class to deal with user input (?) TBD
+
+
+
+	Feel free to edit this guys, just figured I'd put my preliminary thoughts on here so we have a starting point.
+
