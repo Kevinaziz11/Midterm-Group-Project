@@ -85,7 +85,7 @@ namespace NS_REGION {
 
 		std::string line = "";
 		std::list<RegionSalary> listOfRegSals = {};
-		while (std::getline(inputFile, line))
+		while (!inputFile.eof())
 		{
 			std::string school = "";
 			std::string region = "";
@@ -93,21 +93,44 @@ namespace NS_REGION {
 			double midSalary = 0.00;
 			std::string temp = "";
 
-			std::stringstream inputString(line);
+			
+			
 
-			getline(inputString, school, ',');
+			std::stringstream inputString(line);
+			//checking if the first character is a quotation mark
+			if (line.at(0)=='\"') {
+				//int firstComma = line.find_first_of(',');
+				std::string temp1 = "";
+				std::string temp2 = "";
+				getline(inputString, temp1, ',');
+				getline(inputString, temp2, ',');
+				school = temp1 + "," + temp2;
+				school.erase(remove(school.begin(), school.end(), '\"'), school.end());
+				
+			}else{
+				getline(inputString, school, ','); 
+			}
+	
+			
 
 			getline(inputString, region, ',');
 
 			getline(inputString, temp, ',');
 			//remove first character from string '$'
-			temp.erase(0, 1);
+			temp.erase(remove(temp.begin(), temp.end(), '\"'), temp.end());
+			temp.erase(std::remove(temp.begin(), temp.end(), ','), temp.end());
+			temp.erase(std::remove(temp.begin(), temp.end(), '$'), temp.end());
+			
+
+
 			//convert string to double
 			startSalary = std::atof(temp.c_str());
 
 			//same process as the lines above
 			getline(inputString, temp, ',');
-			temp.erase(0, 1);
+			temp.erase(remove(temp.begin(), temp.end(), '\"'), temp.end());
+			temp.erase(std::remove(temp.begin(), temp.end(), ','), temp.end());
+			temp.erase(std::remove(temp.begin(), temp.end(), '$'), temp.end());
 			midSalary = std::atof(temp.c_str());
 
 			//declare a new regionSalary object and push it to our list of objects
