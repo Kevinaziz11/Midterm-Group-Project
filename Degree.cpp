@@ -1,36 +1,36 @@
 #include "Degree.h"
+#include <list>
+#include <string>
 
 namespace NS_Degree {
 
-	std::string Degree::type = "N/A";
-	double Degree::startingSalary = 0.0;
-	double Degree::midCareerSalary = 0.0;
-	double Degree::percentChange = 0.0;
-
-
+	//std::string Degree::type = "N/A";
+	//double Degree::startingSalary = 0.0;
+	//double Degree::midCareerSalary = 0.0;
+	//double Degree::percentChange = 0.0;
+	
 	Degree::Degree(std::string newType, double newStartingSalary, double newMidCareerSalary, double newPercentChange) {
-
-		newType = type;
-		newStartingSalary = startingSalary;
-		newMidCareerSalary midCareerSalary;
-		newPercentChange = percentChange;
-	}
+		degreeType = newType;
+		startingSalary = newStartingSalary;
+		midCareerSalary = newMidCareerSalary;
+		percentChange = newPercentChange;
+	};
 
 	std::string Degree::getType() const {
-		return type;
+		return degreeType;
 	}
 	double Degree::getStartingSalary() const {
 		return startingSalary;
 	}
-	double getMidCareerSalary() const {
+	double Degree::getMidCareerSalary() const {
 		return midCareerSalary;
 	}
-	double getPercentChange() const {
+	double Degree::getPercentChange() const {
 		return percentChange;
 	}
 
 	void Degree::setType(std::string incType) {
-		type = incType;
+		degreeType = incType;
 	}
 	void Degree::setStartingSalary(double incStartingSalary) {
 		startingSalary = incStartingSalary;
@@ -42,15 +42,15 @@ namespace NS_Degree {
 		percentChange = incPercentChange;
 	}
 
-	std::list NS_Degree::degreeFileReader() { //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
+	std::list<Degree> degreeFileReader() { //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
 
 	}
 
-	std::list NS_Degree::degreeListTrim(std::list untrimmedList) { //trim the list of Degree objects with any startingSalary < 40k
+	std::list<Degree> degreeListTrim(std::list<Degree> untrimmedList) { //trim the list of Degree objects with any startingSalary < 40k
 
 	}
 
-	void NS_Degree::degreeListSort(std::list unsortedList) { //sort the list by percentChange
+	void degreeListSort(std::list<Degree> unsortedList) { //sort the list by percentChange
 
 	}
 

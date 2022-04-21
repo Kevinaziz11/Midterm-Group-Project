@@ -3,7 +3,6 @@
 #ifndef Degree_h
 #define Degree_h
 
-
 namespace NS_Degree {
 
 	class Degree {
@@ -26,16 +25,15 @@ namespace NS_Degree {
 		void setPercentChange(double incPercentChange);
 
 	private:
-
-		string type;
-		double startingSalary;
-		double midCareerSalary;
-		double percentChange;
+		std::string degreeType = "N/A";
+		double startingSalary = 0.0;
+		double midCareerSalary = 0.0;
+		double percentChange = 0.0;
 	};
 
-	std::list degreeFileReader(); //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
-	std::list degreeListTrim(std::list untrimmedList); //trim the list of Degree objects with any startingSalary < 40k
-	void degreeListSort(std::list unsortedList); //sort the list by percentChange
+	std::list<Degree> degreeFileReader(); //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
+	std::list<Degree> degreeListTrim(std::list<Degree> untrimmedList); //trim the list of Degree objects with any startingSalary < 40k
+	void degreeListSort(std::list<Degree> unsortedList); //sort the list by percentChange
 
 }
 
