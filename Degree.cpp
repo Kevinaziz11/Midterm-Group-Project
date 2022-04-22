@@ -5,6 +5,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <vector>
+
 
 namespace NS_Degree {
 
@@ -47,8 +49,8 @@ namespace NS_Degree {
 		percentChange = incPercentChange;
 	}
 
-	std::list<Degree> degreeFileReader() { //reads a csv file, create Degree objects for each line, stores them in a list and then returns the list 
-		std::list<Degree> inputList;
+	std::vector<Degree> degreeFileReader() { //reads a csv file, create Degree objects for each line, stores them in a list and then returns the list 
+		std::vector<Degree> inputList;
 		std::ifstream inFS;
 		std::istringstream inSS;
 		std::string lineRead;
@@ -60,60 +62,88 @@ namespace NS_Degree {
 
 		inFS.open(fileName);
 
-		/**
-		if (!inFS.is_open()) {
-			std::cout << "Could not open file " << fileName << std::endl;
-			return 1; // 1 indicates error
+		
+		if (!(inFS.is_open())) {
+			std::cerr << "cannot open file"  <<std:: endl;
 		}
-		**/
-		getline(inFS, lineRead);
+		else {
 
-		getline(inFS, lineRead); // getline is called twice to throwaway the first line (which is useless)
-
-		while (!inFS.fail()) {
-			inSS.clear();
-			inSS.str(lineRead);
-
-			while (!inSS.eof()) {
-				getline(inSS, lineParse, ',');
-				currDegree.setType(lineParse);
-
-				getline(inSS, lineParse, ',');
-				lineParse.erase(0, 2); // erases the first 2 characters which happen to be a / and $ 
-				temp = lineParse; // since the delimiter is a comma, the first parse just gives 2 digits (ten thousands and thaousands place)
-				getline(inSS, lineParse, ','); // get the rest of the number
-				lineParse = temp + lineParse; // add them back together (e.g "42" + "000.00" = "42000")
-				currDegree.setStartingSalary(std::stod(lineParse));
-
-				getline(inSS, lineParse, ',');
-				lineParse.erase(0, 2);
-				temp = lineParse;
-				getline(inSS, lineParse, ',');
-				lineParse = temp + lineParse;
-				currDegree.setMidCareerSalary(std::stod(lineParse));
-
-				getline(inSS, lineParse, ',');
-				currDegree.setPercentChange(std::stod(lineParse));
-
-				inputList.push_back(currDegree);
-
-				break;
-			}
 			getline(inFS, lineRead);
+
+			getline(inFS, lineRead); // getline is called twice to throwaway the first line (which is useless)
+
+			while (!inFS.fail()) {
+				inSS.clear();
+				inSS.str(lineRead);
+
+				while (!(inSS.eof())) {
+					getline(inSS, lineParse, ',');
+					currDegree.setType(lineParse);
+
+					getline(inSS, lineParse, ',');
+					lineParse.erase(0, 2); // erases the first 2 characters which happen to be a / and $ 
+					temp = lineParse; // since the delimiter is a comma, the first parse just gives 2 digits (ten thousands and thaousands place)
+					getline(inSS, lineParse, ','); // get the rest of the number
+					lineParse = temp + lineParse; // add them back together (e.g "42" + "000.00" = "42000")
+					currDegree.setStartingSalary(std::stod(lineParse));
+
+					getline(inSS, lineParse, ',');
+					lineParse.erase(0, 2);
+					temp = lineParse;
+					getline(inSS, lineParse, ',');
+					lineParse = temp + lineParse;
+					currDegree.setMidCareerSalary(std::stod(lineParse));
+
+					getline(inSS, lineParse, ',');
+					currDegree.setPercentChange(std::stod(lineParse));
+
+					inputList.push_back(currDegree);
+
+					break;
+				}
+				getline(inFS, lineRead);
+			}
+			inFS.close();
+			return inputList;
 		}
-		return inputList;
 	}
 
-	std::list<Degree> degreeListTrim(std::list<Degree> untrimmedList) { //trim the list of Degree objects with any startingSalary < 40k
-		std::list<Degree> inputList;
+	std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList) { //trim the list of Degree objects with any startingSalary < 40k
+		std::vector <Degree> trimmedList;
+		for (auto& i : untrimmedList) {
 
-		return inputList;
+			if (i.getStartingSalary()>40000)
+			{
+				trimmedList.push_back(i);
+			}
 
+		}
 
+		
+		
+		return trimmedList;
 	}
 
-	void degreeListSort(std::list<Degree> unsortedList) { //sort the list by percentChange
+	std::vector<Degree> degreeListSort(std::vector<Degree> unsortedList) { //sort the list by percentChange
+		std::vector<Degree> sortedList; //bubblesort algorithm
+		
 
+
+		for (auto& i : unsortedList) {
+
+			sortedList.push_back(i);
+		}
+		int n = sortedList.size() - 1;
+
+		for (int i = n; i >= 0; i--) {
+			for (int j = n; j > n - i; j--) {
+				if (sortedList[j].getPercentChange() > sortedList[j - 1].getPercentChange()) {
+					std::swap(sortedList[j], sortedList[j - 1]);
+				}
+			}
+		}
+		return sortedList;
 	}
+
 
 }
