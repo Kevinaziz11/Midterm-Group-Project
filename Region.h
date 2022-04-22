@@ -8,6 +8,8 @@
 #include<list>
 #include<vector>
 #include<algorithm>
+//TODO: create a function that can average the (total of all schools in the region) start and mid salaries for a specified region
+//TODO: create a function that can give the best school to go to in a specified region based on start and mid salaries as well as percentage change
 
 namespace NS_REGION {
 
@@ -15,13 +17,7 @@ namespace NS_REGION {
 
 
 	public:
-		//friend bool operator ==(const RegionSalary& lhs, const RegionSalary& rhs);
 
-
-
-
-
-		//friend bool operator <(const RegionSalary& lhs, const RegionSalary& rhs);
 
 		RegionSalary();              //constructor
 
@@ -53,8 +49,9 @@ namespace NS_REGION {
 
 		std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
 
-		std::vector<RegionSalary> sortData(std::vector<RegionSalary> theList);  //sorts the vector from highest slary( index 0 ) to lowest
+		void sortData(std::vector<RegionSalary>& theList, int low, int high);  //sorts the vector from highest slary( index 0 ) to lowest
 
+		int partition(std::vector<RegionSalary>& theList, int left, int right);//quick sort helper function
 
 	private:
 		std::string region;

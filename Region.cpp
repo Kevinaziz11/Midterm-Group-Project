@@ -182,22 +182,68 @@ namespace NS_REGION {
 
 
 		}
+		sortData(trimmedList, 0, trimmedList.size() - 1);
 		return trimmedList;
 	}
 
 
 
 	//}
+	//initial call sortData(list,0,list.size()-1);
+	//quick sort is fastest sort algorithm O(n log n) in best case scenario
+	//https://www.geeksforgeeks.org/quick-sort/
+	void RegionSalary::sortData(std::vector<RegionSalary>& theList, int low, int high) {
 
-	//std::vector<RegionSalary> sortData(std::vector<RegionSalary> theList) {
+		std::vector<RegionSalary> listOne = theList;
 
-	//	std::vector<RegionSalary> listOne = theList;
+		if (low < high)
 
-	//	return listOne;
+		{
 
-	//}  //sorts the vector from highest salary( index 0 ) to lowest
+			int k = partition(theList, low, high);
+
+			sortData(theList, low, k - 1);
+
+			sortData(theList, k + 1, high);
+
+		}
 
 
 
+	}  //sorts the vector from highest salary( index 0 ) to lowest
+
+	void swap(RegionSalary* a, RegionSalary* b) {
+
+		RegionSalary x = *a;
+		*a = *b;
+		*b = x;
+
+
+	}
+	//https://www.geeksforgeeks.org/quick-sort/
+	int RegionSalary::partition(std::vector<RegionSalary>& theList, int low, int high) {
+		double pivot = theList.at(high).getPercentSalaryChange();
+
+		int i = low - 1;
+
+		for (int j = low; j <= high - 1; j++) {
+
+			if (theList.at(j).getPercentSalaryChange() < pivot) {
+
+				i++;
+				swap(&theList.at(i), &theList.at(j));
+
+			}
+
+
+
+		}
+		swap(&theList.at(i + 1), &theList.at(high));
+
+
+
+		return (i + 1);
+
+	}
 
 }
