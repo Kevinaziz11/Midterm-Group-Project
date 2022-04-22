@@ -57,6 +57,7 @@ namespace NS_Degree {
 		std::string lineParse;
 		std::string temp;
 		std::string fileName = "degrees-that-pay-back.csv";
+		
 
 		Degree currDegree;
 
