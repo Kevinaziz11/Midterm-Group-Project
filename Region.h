@@ -7,7 +7,7 @@
 #include<sstream>
 #include<list>
 #include<vector>
-
+#include<algorithm>
 
 namespace NS_REGION {
 
@@ -15,6 +15,13 @@ namespace NS_REGION {
 
 
 	public:
+		//friend bool operator ==(const RegionSalary& lhs, const RegionSalary& rhs);
+
+
+
+
+
+		//friend bool operator <(const RegionSalary& lhs, const RegionSalary& rhs);
 
 		RegionSalary();              //constructor
 
@@ -30,7 +37,7 @@ namespace NS_REGION {
 
 		double getMidSalary();   //returns the region for the specified RegionSalary Object
 
-		double getPercentSalaryChange();  //returns the percentage change from start salary to mid salary
+		const double getPercentSalaryChange();  //returns the percentage change from start salary to mid salary
 
 		void setRegion(std::string theRegion);
 
@@ -42,11 +49,11 @@ namespace NS_REGION {
 
 		void setPercentSalaryChange(double theStartSal, double theMidSal);
 
-		std::list<RegionSalary> extractRegionData(); //extracts the information from the csv file
+		std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
 
-		std::list<RegionSalary> trimData(std::list<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
+		std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
 
-		std::list<RegionSalary> sortData(std::list<RegionSalary> theList);  //sorts the vector from highest slary( index 0 ) to lowest
+		std::vector<RegionSalary> sortData(std::vector<RegionSalary> theList);  //sorts the vector from highest slary( index 0 ) to lowest
 
 
 	private:

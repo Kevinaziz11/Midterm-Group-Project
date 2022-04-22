@@ -4,6 +4,7 @@
 
 namespace NS_REGION {
 
+
 	RegionSalary::RegionSalary() {
 
 		region = "na";
@@ -44,7 +45,7 @@ namespace NS_REGION {
 		return midSalary;
 	} //returns the region for the specified RegionSalary Object
 
-	double RegionSalary::getPercentSalaryChange() {
+	const double RegionSalary::getPercentSalaryChange() {
 
 		return percentSalaryChange;
 
@@ -78,13 +79,13 @@ namespace NS_REGION {
 
 	//extracts the information from the csv file
 	//source: https://www.youtube.com/watch?v=NFvxA-57LLA
-	std::list<RegionSalary> RegionSalary::extractRegionData() {
+	std::vector<RegionSalary> RegionSalary::extractRegionData() {
 		std::ifstream inputFile;
 
 		inputFile.open("regionSalaries.csv");
 
 		std::string line = "";
-		std::list<RegionSalary> listOfRegSals = {};
+		std::vector<RegionSalary> listOfRegSals = {};
 		while (std::getline(inputFile, line))
 		{
 			std::string school = "";
@@ -94,11 +95,11 @@ namespace NS_REGION {
 			std::string temp = "";
 			std::string temp1 = "";
 			std::string temp2 = "";
-			
+
 
 			std::stringstream inputString(line);
 			//checking if the first character is a quotation mark
-			if (line.at(0)=='\"') {
+			if (line.at(0) == '\"') {
 				//int firstComma = line.find_first_of(',');
 				temp1 = "";
 				temp2 = "";
@@ -106,12 +107,13 @@ namespace NS_REGION {
 				getline(inputString, temp2, ',');
 				school = temp1 + "," + temp2;
 				school.erase(remove(school.begin(), school.end(), '\"'), school.end());
-				
-			}else{
-				getline(inputString, school, ','); 
+
 			}
-	
-			
+			else {
+				getline(inputString, school, ',');
+			}
+
+
 
 			getline(inputString, region, ',');
 			temp1 = "";
@@ -123,7 +125,7 @@ namespace NS_REGION {
 			temp.erase(remove(temp.begin(), temp.end(), '\"'), temp.end());
 			temp.erase(std::remove(temp.begin(), temp.end(), ','), temp.end());
 			temp.erase(std::remove(temp.begin(), temp.end(), '$'), temp.end());
-			
+
 
 
 			//convert string to double
@@ -151,17 +153,51 @@ namespace NS_REGION {
 			listOfRegSals.push_back(regSal);
 			line = "";
 		}
+		//TODO: close file
+		listOfRegSals = trimData(listOfRegSals);
 		return listOfRegSals;
 
 	}
 
-	std::list<RegionSalary> trimData(std::list<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
+	//removes the entries in the vector that have a starting salary <40k
+	std::vector<RegionSalary> RegionSalary::trimData(std::vector<RegionSalary> theList) {
+		//std::vector<RegionSalary> objectList = theList;
+		std::vector<RegionSalary> trimmedList = {};
+		if (theList.empty()) {
 
-	std::list<RegionSalary> sortData(std::list<RegionSalary> theList) {
+			std::cout << "it is empty" << std::endl;
+			//return theList;
+		}
+		else {
+
+			for (auto& i : theList) {
+
+				if (i.getStartSalary() > 40000) {
+
+					trimmedList.push_back(i);
+
+				}
+
+			}
+
+
+		}
+		return trimmedList;
+	}
 
 
 
-		return theList;
+	//}
 
-	}  //sorts the vector from highest salary( index 0 ) to lowest
+	//std::vector<RegionSalary> sortData(std::vector<RegionSalary> theList) {
+
+	//	std::vector<RegionSalary> listOne = theList;
+
+	//	return listOne;
+
+	//}  //sorts the vector from highest salary( index 0 ) to lowest
+
+
+
+
 }

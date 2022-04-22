@@ -72,7 +72,7 @@ namespace NS_Degree {
 
 			getline(inFS, lineRead); // getline is called twice to throwaway the first line (which is useless)
 
-			while (!inFS.fail()) {
+			while (!(inFS.fail())) {
 				inSS.clear();
 				inSS.str(lineRead);
 
@@ -102,6 +102,11 @@ namespace NS_Degree {
 					break;
 				}
 				getline(inFS, lineRead);
+
+
+				inputList = degreeListTrim(inputList);
+				inputList = degreeListSort(inputList);
+
 			}
 			inFS.close();
 			return inputList;
