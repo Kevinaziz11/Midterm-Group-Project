@@ -1,7 +1,9 @@
-#pragma once
 
 #ifndef Degree_h
 #define Degree_h
+
+#include<string>
+#include<vector>
 
 namespace NS_Degree {
 
@@ -31,9 +33,11 @@ namespace NS_Degree {
 		double percentChange = 0.0;
 	};
 
-	std::list<Degree> degreeFileReader(); //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
-	std::list<Degree> degreeListTrim(std::list<Degree> untrimmedList); //trim the list of Degree objects with any startingSalary < 40k
-	void degreeListSort(std::list<Degree> unsortedList); //sort the list by percentChange
+	std::vector<Degree> degreeFileReader(); //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
+	std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList); //trim the list of Degree objects with any startingSalary < 40k
+	std::vector<Degree> degreeListSort(std::vector<Degree> unsortedList); //sort the list by percentChange
+	double getDegreeAverage(std::vector<Degree> degreeList, int numToAvg);
+	std::string degreeNumFormatter(double degreeVar);
 
 }
 

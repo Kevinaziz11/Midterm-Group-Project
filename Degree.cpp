@@ -63,9 +63,9 @@ namespace NS_Degree {
 
 		inFS.open(fileName);
 
-		
+
 		if (!(inFS.is_open())) {
-			std::cerr << "cannot open file"  <<std:: endl;
+			std::cerr << "cannot open file" << std::endl;
 		}
 		else {
 
@@ -83,7 +83,7 @@ namespace NS_Degree {
 
 					getline(inSS, lineParse, ',');
 					lineParse.erase(0, 2); // erases the first 2 characters which happen to be a / and $ 
-					temp = lineParse; // since the delimiter is a comma, the first parse just gives 2 digits (ten thousands and thaousands place)
+					temp = lineParse; // since the delimiter is a comma, the first parse just gives 2 digits (ten thousands and thousands place)
 					getline(inSS, lineParse, ','); // get the rest of the number
 					lineParse = temp + lineParse; // add them back together (e.g "42" + "000.00" = "42000")
 					currDegree.setStartingSalary(std::stod(lineParse));
@@ -100,7 +100,7 @@ namespace NS_Degree {
 
 					inputList.push_back(currDegree);
 
-					break;
+					break; //stops the reader from reading the rest of the line
 				}
 				getline(inFS, lineRead);
 
@@ -118,21 +118,18 @@ namespace NS_Degree {
 		std::vector <Degree> trimmedList;
 		for (auto& i : untrimmedList) {
 
-			if (i.getStartingSalary()>40000)
+			if (i.getStartingSalary() > 40000)
 			{
 				trimmedList.push_back(i);
 			}
 
 		}
-
-		
-		
 		return trimmedList;
 	}
 
 	std::vector<Degree> degreeListSort(std::vector<Degree> unsortedList) { //sort the list by percentChange
 		std::vector<Degree> sortedList; //bubblesort algorithm
-		
+
 
 
 		for (auto& i : unsortedList) {
@@ -151,5 +148,34 @@ namespace NS_Degree {
 		return sortedList;
 	}
 
+	double getDegreeAverage(std::vector<Degree> degreeList, int numToAvg) {
+		double average;
+		double sum = 0;
 
+		if (numToAvg > 25) {
+			numToAvg = 25;
+		}
+
+		else if (numToAvg > degreeList.size()) {
+			numToAvg = degreeList.size();
+		}
+
+
+		for (unsigned int i = 0; i < numToAvg; i++) {
+			sum += degreeList.at(i).getMidCareerSalary();
+		}
+
+		average = sum / numToAvg;
+
+		return average;
+	}
+
+	std::string degreeNumFormatter(double degreeVar) {
+		std::string formattedNum;
+
+		formattedNum = "$" + std::to_string(degreeVar);
+		formattedNum.insert(3, ",");
+
+		return formattedNum;
+	}
 }
