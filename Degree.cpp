@@ -57,7 +57,7 @@ namespace NS_Degree {
 		std::string lineParse;
 		std::string temp;
 		std::string fileName = "degrees-that-pay-back.csv";
-		
+
 
 		Degree currDegree;
 
@@ -105,8 +105,8 @@ namespace NS_Degree {
 				getline(inFS, lineRead);
 
 
-			//	inputList = degreeListTrim(inputList);
-				inputList = degreeListSort(inputList);
+				//	inputList = degreeListTrim(inputList);
+				degreeListSort(inputList, 0, inputList.size() - 1);
 
 			}
 			inFS.close();
@@ -124,28 +124,62 @@ namespace NS_Degree {
 			}
 
 		}
+		degreeListSort(trimmedList, 0, trimmedList.size() - 1);
 		return trimmedList;
 	}
 
-	std::vector<Degree> degreeListSort(std::vector<Degree> unsortedList) { //sort the list by percentChange
-		std::vector<Degree> sortedList; //bubblesort algorithm
+
+	void swapTwo(Degree* a, Degree* b) {
+
+		Degree x = *a;
+		*a = *b;
+		*b = x;
 
 
+	}
 
-		for (auto& i : unsortedList) {
 
-			sortedList.push_back(i);
+	void degreeListSort(std::vector<Degree>& theList, int low, int high) { //sort the list by percentChange
+		std::vector<Degree> listOne = theList;
+
+		if (low < high)
+
+		{
+
+			int k = partitionTwo(theList, low, high);
+
+			degreeListSort(theList, low, k - 1);
+
+			degreeListSort(theList, k + 1, high);
+
 		}
-		int n = sortedList.size() - 1;
 
-		for (int i = n; i >= 0; i--) {
-			for (int j = n; j > n - i; j--) {
-				if (sortedList[j].getPercentChange() > sortedList[j - 1].getPercentChange()) {
-					std::swap(sortedList[j], sortedList[j - 1]);
-				}
+
+	}
+
+	int partitionTwo(std::vector<Degree>& theList, int low, int high)
+	{
+		double pivot = theList.at(high).getPercentChange();
+
+		int i = low - 1;
+
+		for (int j = low; j <= high - 1; j++) {
+
+			if (theList.at(j).getPercentChange() < pivot) {
+
+				i++;
+				swapTwo(&theList.at(i), &theList.at(j));
+
 			}
+
+
+
 		}
-		return sortedList;
+		swapTwo(&theList.at(i + 1), &theList.at(high));
+
+
+
+		return (i + 1);;
 	}
 
 	double getDegreeAverage(std::vector<Degree> degreeList, int numToAvg) {
@@ -182,7 +216,7 @@ namespace NS_Degree {
 
 		for (int i = 0; i <= haystack.size(); i++) {
 
-			if (haystack.at(i).getType()==needle.getType())
+			if (haystack.at(i).getType() == needle.getType())
 			{
 				return "degree exists!";
 			}

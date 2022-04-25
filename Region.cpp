@@ -28,6 +28,38 @@ namespace NS_REGION {
 
 
 	} //constructor
+	RegionSalary averageForGivenRegion(std::string region, std::vector<RegionSalary> theList)
+	{
+		int count = 0;
+		double startSal = 0.00;
+		double midSal = 0.00;
+
+		RegionSalary obj1 = RegionSalary();
+		//loop through the list 
+		for (int i = theList.size() - 1; i >= 0; i--)
+		{
+			//if the elements region is equal to the input region 
+			if (theList.at(i).getRegion() == region) {
+				//add the salaries and increment the count
+				startSal = startSal + theList.at(i).getStartSalary();
+				midSal = midSal + theList.at(i).getMidSalary();
+
+				count = count + 1;
+			}
+
+		}
+		//divide the sum of salaries by the count to obtain average
+		startSal = startSal / count;
+		midSal = midSal / count;
+
+		//set the objects elements to these averages
+		obj1.setSchool("average of schools in the region");
+		obj1.setRegion(region);
+		obj1.setMidSalary(midSal);
+		obj1.setStartSalary(startSal);
+		obj1.setPercentSalaryChange(startSal, midSal);
+		return obj1;
+	}
 
 	RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList) {
 
@@ -50,6 +82,8 @@ namespace NS_REGION {
 		}
 		return regSal;
 	}
+
+
 
 	std::string RegionSalary::getRegion() {
 		return region;
@@ -192,17 +226,18 @@ namespace NS_REGION {
 		}
 		//TODO: close file DONE
 		inputFile.close();
-		listOfRegSals = trimData(listOfRegSals);
+		//listOfRegSals = trimData(listOfRegSals);
+		sortData(listOfRegSals, 0, listOfRegSals.size() - 1);
 		return listOfRegSals;
 
 	}
 
 	//removes the entries in the vector that have a starting salary <40k
-	std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList)
+	std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList, double setLimit)
 	{
-		//std::vector<RegionSalary> objectList = theList;
+		std::vector<RegionSalary> objectList = theList;
 		std::vector<RegionSalary> trimmedList = {};
-		if (theList.empty()) {
+		if (objectList.empty()) {
 
 			std::cout << "it is empty" << std::endl;
 			//return theList;
@@ -211,7 +246,7 @@ namespace NS_REGION {
 
 			for (auto& i : theList) {
 
-				if (i.getStartSalary() > 40000) {
+				if (i.getStartSalary() > setLimit) {
 
 					trimmedList.push_back(i);
 
