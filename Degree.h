@@ -34,7 +34,7 @@ namespace NS_Degree {
 	};
 
 	std::vector<Degree> degreeFileReader(); //read from a csv file, create Degree objects for each line, stores them in a list and then returns the list 
-	std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList); //trim the list of Degree objects with any startingSalary < 40k
+	std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList, double setLimit); //trim the list of Degree objects with any startingSalary < 40k
 	std::vector<Degree> degreeListSort(std::vector<Degree> unsortedList); //sort the list by percentChange
 	double getDegreeAverage(std::vector<Degree> degreeList, int numToAvg);
 	std::string degreeNumFormatter(double degreeVar);
