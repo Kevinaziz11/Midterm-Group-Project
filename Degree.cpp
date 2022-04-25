@@ -105,7 +105,7 @@ namespace NS_Degree {
 				getline(inFS, lineRead);
 
 
-				inputList = degreeListTrim(inputList);
+			//	inputList = degreeListTrim(inputList);
 				inputList = degreeListSort(inputList);
 
 			}
@@ -114,11 +114,11 @@ namespace NS_Degree {
 		}
 	}
 
-	std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList) { //trim the list of Degree objects with any startingSalary < 40k
+	std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList, double setLimit) { //trim the list of Degree objects with any startingSalary < 40k
 		std::vector <Degree> trimmedList;
 		for (auto& i : untrimmedList) {
 
-			if (i.getStartingSalary() > 40000)
+			if (i.getStartingSalary() > setLimit)
 			{
 				trimmedList.push_back(i);
 			}
@@ -177,5 +177,20 @@ namespace NS_Degree {
 		formattedNum.insert(3, ",");
 
 		return formattedNum;
+	}
+	std::string degreeExists(std::vector<Degree> haystack, Degree needle) {
+
+		for (int i = 0; i <= haystack.size(); i++) {
+
+			if (haystack.at(i).getType()==needle.getType())
+			{
+				return "degree exists!";
+			}
+			else {
+				return "degree does not exist";
+			}
+
+		}
+
 	}
 }
