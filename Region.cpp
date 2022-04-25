@@ -1,4 +1,4 @@
-#include "region1.h"
+#include "Region.h"
 
 
 
@@ -29,21 +29,21 @@ namespace NS_REGION {
 
 	} //constructor
 
-	RegionSalary RegionSalary::bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList) {
+	RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList) {
 
 		std::vector<RegionSalary> schoolList = theList;
 
 		RegionSalary regSal = RegionSalary();
 
-		for (size_t i = schoolList.size() - 1; i >=0; i--)
+		for (int i = schoolList.size() - 1; i >= 0; i--)
 		{
 
 			if (schoolList.at(i).getRegion() == region) {
 
 				//if (regSal.getPercentSalaryChange() < schoolList.at(i).getPercentSalaryChange()) {
 
-					regSal = schoolList.at(i);
-					return regSal;
+				regSal = schoolList.at(i);
+				return regSal;
 				//}
 
 			}
@@ -101,7 +101,7 @@ namespace NS_REGION {
 
 	//extracts the information from the csv file
 	//source: https://www.youtube.com/watch?v=NFvxA-57LLA
-	std::vector<RegionSalary> RegionSalary::extractRegionData() {
+	std::vector<RegionSalary> extractRegionData() {
 		std::ifstream inputFile;
 
 		inputFile.open("salaries-by-region.csv");
@@ -119,11 +119,11 @@ namespace NS_REGION {
 			std::string temp = "";
 			std::string temp1 = "";
 			std::string temp2 = "";
-			
+
 
 			std::stringstream inputString(line);
 			//checking if the first character is a quotation mark
-			if (line.at(0)=='\"') {
+			if (line.at(0) == '\"') {
 				//int firstComma = line.find_first_of(',');
 				temp1 = "";
 				temp2 = "";
@@ -131,12 +131,13 @@ namespace NS_REGION {
 				getline(inputString, temp2, ',');
 				school = temp1 + "," + temp2;
 				school.erase(remove(school.begin(), school.end(), '\"'), school.end());
-				
-			}else{
-				getline(inputString, school, ','); 
+
 			}
-	
-			
+			else {
+				getline(inputString, school, ',');
+			}
+
+
 
 			getline(inputString, region, ',');
 			temp1 = "";
@@ -148,7 +149,7 @@ namespace NS_REGION {
 			temp.erase(remove(temp.begin(), temp.end(), '\"'), temp.end());
 			temp.erase(std::remove(temp.begin(), temp.end(), ','), temp.end());
 			temp.erase(std::remove(temp.begin(), temp.end(), '$'), temp.end());
-			
+
 
 
 			//convert string to double
@@ -160,30 +161,30 @@ namespace NS_REGION {
 			//all cash values are in the thousands and seperated by a comma, we need to include both parts 
 			//so we use two getlines in order to retrieve all of the information
 			getline(inputString, temp1, ',');
-			
+
 			getline(inputString, temp2, ',');
-			
+
 			temp = temp1 + "," + temp2;
-			
+
 			temp.erase(remove(temp.begin(), temp.end(), '\"'), temp.end());
-			
+
 			temp.erase(std::remove(temp.begin(), temp.end(), ','), temp.end());
-			
+
 			temp.erase(std::remove(temp.begin(), temp.end(), '$'), temp.end());
-			
+
 			midSalary = std::atof(temp.c_str());
 
 			//declare a new regionSalary object and push it to our list of objects
 			RegionSalary regSal = RegionSalary();
-			
+
 			regSal.setSchool(school);
-			
+
 			regSal.setRegion(region);
-			
+
 			regSal.setStartSalary(startSalary);
-			
+
 			regSal.setMidSalary(midSalary);
-			
+
 			regSal.setPercentSalaryChange(startSalary, midSalary);
 
 			listOfRegSals.push_back(regSal);
@@ -197,7 +198,8 @@ namespace NS_REGION {
 	}
 
 	//removes the entries in the vector that have a starting salary <40k
-	std::vector<RegionSalary> RegionSalary::trimData(std::vector<RegionSalary> theList) {
+	std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList)
+	{
 		//std::vector<RegionSalary> objectList = theList;
 		std::vector<RegionSalary> trimmedList = {};
 		if (theList.empty()) {
@@ -217,11 +219,12 @@ namespace NS_REGION {
 
 			}
 
-			
+
 		}
-		sortData(trimmedList,0,trimmedList.size()-1);
+		sortData(trimmedList, 0, trimmedList.size() - 1);
 		return trimmedList;
-		}
+	}
+
 
 
 
@@ -229,23 +232,23 @@ namespace NS_REGION {
 	//initial call sortData(list,0,list.size()-1);
 	//quick sort is fastest sort algorithm O(n log n) in best case scenario
 	//https://www.geeksforgeeks.org/quick-sort/
-	void RegionSalary::sortData(std::vector<RegionSalary> &theList, int low, int high) {
+	void sortData(std::vector<RegionSalary>& theList, int low, int high) {
 
 		std::vector<RegionSalary> listOne = theList;
 
 		if (low < high)
-			
+
 		{
-			
+
 			int k = partition(theList, low, high);
-			
-			sortData(theList, low, k-1);
-			
+
+			sortData(theList, low, k - 1);
+
 			sortData(theList, k + 1, high);
-			
+
 		}
 
-		
+
 
 	}  //sorts the vector from highest salary( index 0 ) to lowest
 
@@ -258,11 +261,11 @@ namespace NS_REGION {
 
 	}
 	//https://www.geeksforgeeks.org/quick-sort/
-	int RegionSalary::partition(std::vector<RegionSalary> &theList, int low, int high) {
+	int partition(std::vector<RegionSalary>& theList, int low, int high) {
 		double pivot = theList.at(high).getPercentSalaryChange();
-		
+
 		int i = low - 1;
-		
+
 		for (int j = low; j <= high - 1; j++) {
 
 			if (theList.at(j).getPercentSalaryChange() < pivot) {
@@ -275,11 +278,11 @@ namespace NS_REGION {
 
 
 		}
-		swap(&theList.at(i+1), &theList.at(high));
-		
+		swap(&theList.at(i + 1), &theList.at(high));
 
 
-			return (i+1);
+
+		return (i + 1);
 
 	}
 

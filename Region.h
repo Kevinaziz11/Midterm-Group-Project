@@ -18,18 +18,18 @@ namespace NS_REGION {
 
 	public:
 
-		
+
 		RegionSalary();              //constructor
 
 		RegionSalary(std::string theSchool, std::string theRegion, double theStartSalary, double theMidSalary, double thePercentSalaryChange);
 
-		
+
 		//RegionSalary(string school, string region, double startSalary, double midSalary, double percentSalaryChange, ); //constructor
-		
+
 		//returns the best school in a specified region based on percentsalarychange 
 		//TODO: come up with way to pick school based on start/mid slary as well as percent salary change
-		RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
-		
+
+
 		std::string getRegion();         //returns the region for the specified RegionSalary Object
 
 		std::string getSchool();        //returns the school for the specified RegionSalary Object
@@ -50,13 +50,15 @@ namespace NS_REGION {
 
 		void setPercentSalaryChange(double theStartSal, double theMidSal);
 
-		std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
 
-		std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
 
-		void sortData(std::vector<RegionSalary> &theList, int low, int high);  //sorts the vector from highest slary( index 0 ) to lowest
+		//std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
 
-		int partition(std::vector<RegionSalary> &theList, int left, int right);//quick sort helper function
+		//std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
+
+		//void sortData(std::vector<RegionSalary> &theList, int low, int high);  //sorts the vector from highest slary( index 0 ) to lowest
+
+		//int partition(std::vector<RegionSalary> &theList, int left, int right);//quick sort helper function
 
 	private:
 		std::string region;
@@ -73,8 +75,15 @@ namespace NS_REGION {
 
 
 	};
+	RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
 
+	std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
 
+	std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
+
+	void sortData(std::vector<RegionSalary>& theList, int low, int high);  //sorts the vector from highest slary( index 0 ) to lowest
+
+	int partition(std::vector<RegionSalary>& theList, int left, int right);//quick sort helper function
 
 
 
@@ -84,4 +93,4 @@ namespace NS_REGION {
 
 
 }
-#endif // region_h
+#endif // !region_h
