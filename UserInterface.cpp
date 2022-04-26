@@ -1,97 +1,256 @@
-#ifndef region_h
-#define region_h
+#include "UserInterface.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
-#include <iostream>
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<list>
-#include<vector>
-#include<algorithm>
-#include <iomanip> 
-//TODO: create a function that can average the (total of all schools in the region) start and mid salaries for a specified region
-//TODO: create a function that can give the best school to go to in a specified region based on start and mid salaries as well as percentage change
+//the function that will be called by main in order to take in user input and perform the specified tasks.
 
-namespace NS_REGION {
+void NS_USERINTERFACE::userInterface()
+{
+	NS_REGION::RegionSalary regionObject = NS_REGION::RegionSalary();
+	NS_Degree::Degree degreeObject = NS_Degree::Degree();
+	std::vector < NS_REGION::RegionSalary > x = NS_REGION::extractRegionData();
+	std::vector < NS_Degree::Degree > y = NS_Degree::degreeFileReader();
+	if (x.empty()||y.empty()) {
 
-	class RegionSalary {
+		std::cerr << "there was an error processing the data set(s)" << std::endl;
+		std::cout << "---------------------------------------------------------" << std::endl;
+	}
+	else {
 
-
-	public:
-
-
-		RegionSalary();              //constructor
-
-		RegionSalary(std::string theSchool, std::string theRegion, double theStartSalary, double theMidSalary, double thePercentSalaryChange);
-
-
-		//RegionSalary(string school, string region, double startSalary, double midSalary, double percentSalaryChange, ); //constructor
-
-		//returns the best school in a specified region based on percentsalarychange 
-		//TODO: come up with way to pick school based on start/mid slary as well as percent salary change
-
-
-		std::string getRegion();         //returns the region for the specified RegionSalary Object
-
-		std::string getSchool();        //returns the school for the specified RegionSalary Object
-
-		double getStartSalary();  //returns the starting salary for the specified RegionSalary Object
-
-		double getMidSalary();   //returns the region for the specified RegionSalary Object
-
-		const double getPercentSalaryChange();  //returns the percentage change from start salary to mid salary
-
-		void setRegion(std::string theRegion);
-
-		void setSchool(std::string theSchool);
-
-		void setStartSalary(double theStartSal);
-
-		void setMidSalary(double theMidSal);
-
-		void setPercentSalaryChange(double theStartSal, double theMidSal);
+		//RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
+		//listOfRegSals = trimData(listOfRegSals, double setLimit);
+		//std::vector<Degree> degreeListTrim(std::vector<Degree> untrimmedList, double setLimit)
+		std::cout << "The data sets have been parsed and sorted." << std::endl;
 
 
 
-		//std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
+		std::cout << std::endl;
 
-		//std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList); //removes the entries in the vector that have a starting salary <40k
+		std::cout << "would you like to set a limit to the starting salary? Please type yes or no. " << std::endl;
 
-		//void sortData(std::vector<RegionSalary> &theList, int low, int high);  //sorts the vector from highest slary( index 0 ) to lowest
+		std::string limitDecision = "";
+		//std::cin >> limitDecision;
+		while (std::cin >> limitDecision) {
+			std::for_each(limitDecision.begin(), limitDecision.end(), [](char& c) {
+				c = ::tolower(c);
+				});
+			if (limitDecision == "yes" || limitDecision == "Yes" || limitDecision == "no" || limitDecision == "No") {
+				break;
 
-		//int partition(std::vector<RegionSalary> &theList, int left, int right);//quick sort helper function
+			}
+			else {
+				std::cerr << "Please enter a valid input option: " << std::endl;
+				std::cout << std::setfill('-') << std::setw(85) << "" << std::endl;
+				continue;
+			}
 
-	private:
-		std::string region;
+		}
 
-		std::string school;
+		if (limitDecision == "yes" || limitDecision == "Yes") {
+			std::cout << "enter a cash value to limit the starting yearly salary: " << std::endl;
+			double cashLimit = 0.00;
+			
 
-		double startSalary;
+			/*if (cashLimit == 0.00) {
+				std::cout << "Limit not set" << std::endl;
+				std::cout << std::setfill('-') << std::setw(50) << "" << std::endl;
 
-		double midSalary;
-
-		double percentSalaryChange;
-
-
-
-
-	};
-	RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
-	RegionSalary averageForGivenRegion(std::string region, std::vector<RegionSalary> theList);
-	std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
-
-	std::vector<RegionSalary> trimData(std::vector<RegionSalary> theList, double setLimit); //removes the entries in the vector that have a starting salary <40k
-
-	void sortData(std::vector<RegionSalary>& theList, int low, int high);  //sorts the vector from highest slary( index 0 ) to lowest
-
-	int partition(std::vector<RegionSalary>& theList, int left, int right);//quick sort helper function
-
-
+			}*/
 
 
+			
+
+			while(1){
+
+			if(std::cin>>cashLimit){
+
+				break;
+
+			}else{
+
+				std::cerr << "Please enter a valid input option: " << std::endl;
+				std::cin.clear();
+				while (std::cin.get() != '\n') ; // empty loop
+			}
+
+			}
+	
+
+		
+			y = NS_Degree::degreeListTrim(y, cashLimit);
+			x = NS_REGION::trimData(x, cashLimit);
+
+
+		}
+		else {
+
+			NS_Degree::degreeListTrim(y, 0.00);
+			NS_REGION::trimData(x, 0.00);
 
 
 
+		}
 
+		std::cout <<  std::endl << std::endl;
+		std::cout << "Best school based on percentage salary increase: " << x.at(x.size() - 1).getSchool() << std::endl;
+		std::cout << "the average starting salary is: " << x.at(x.size() - 1).getStartSalary() << std::endl;
+		std::cout << "the average mid salary is: " << x.at(x.size() - 1).getMidSalary() << std::endl;
+		std::cout << "the percentage change from start to mid salary is: " << x.at(x.size() - 1).getPercentSalaryChange() << std::endl;
+		std::cout << std::setfill('-') << std::setw(85) << "" << std::endl;
+
+		std::cout << std::endl;
+
+
+		std::cout << "Best degree based on percentage salary:" << " " << y.at(y.size()-1).getType() << std::endl;
+		std::cout << "Starting salary for this degree is: " << y.at(y.size()-1).getStartingSalary() << std::endl;
+		std::cout << "Mid salary for this degre is: " << y.at(y.size()-1).getMidCareerSalary() << std::endl;
+		std::cout << "the percentage change from start to mid salary is: " << y.at(y.size()-1).getPercentChange() << std::endl;
+		std::cout << std::setfill('-') << std::setw(85) << "" << std::endl;
+		std::cout << std::endl;
+		//RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
+		std::cout << "If you would like to exit, type exit otherwise you can enter a region and find out what the most lucrative school is in that regions" << std::endl<<std::endl;
+		std::cout << "List of regions to select from: California, Western, Midwestern, Southern, Northeastern" << std::endl<<std::endl;
+		std::cout << std::endl;
+		std::string input = "";
+		//std::cin>>input;
+		////California,Western,Midwestern,Southern,Northeastern, Exit
+		while (std::cin >> input) {
+			std::for_each(input.begin(), input.end(), [](char& c) {
+				c = ::tolower(c);
+				});
+			input[0] = toupper(input[0]);
+			
+			if (input == "Exit" || input == "California" || input == "Western" || input=="Midwestern" || input == "Southern" || input == "Northeastern") {
+				break;
+			}
+			else{
+
+			std::cerr << "Please enter a valid input option: " << std::endl;
+				std::cout << std::setfill('-') << std::setw(85) << "" << std::endl<<std::endl;
+				continue;
+
+			}
+		}
+
+		//https://www.cplusplus.com/reference/cctype/toupper/
+		std::for_each(input.begin(), input.end(), [](char& c) {
+			c = ::tolower(c);
+			});
+		input[0] = toupper(input[0]);
+		//California,Western,Midwestern,Southern,Northeastern
+			if(input == "exit"||input == "Exit"){
+
+				exit(EXIT_FAILURE);
+			}else{
+			//x is name of region  list
+			//y is name of degree list 
+			//RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
+
+				if(input == "california" || input == "California" ){
+					regionObject = NS_REGION::bestSchoolInRegion(input, x);
+				
+
+
+				}
+				else if(input == "western" || input == "Western"){
+					regionObject = NS_REGION::bestSchoolInRegion(input, x);
+
+				}
+				else if(input == "southern" || input == "Southern"){
+					regionObject = NS_REGION::bestSchoolInRegion(input, x);
+
+				}
+				else if (input == "Midwestern" || input == "midwestern") {
+					regionObject = NS_REGION::bestSchoolInRegion(input, x);
+
+				}
+				else if(input == "Northeastern" || input == "northeastern"){
+					regionObject = NS_REGION::bestSchoolInRegion(input, x);
+
+				} 
+				std::cout<<std::endl;
+				std::cout <<"the best school in the region is: " << regionObject.getSchool() << std::endl;
+				std::cout <<"best school's average starting salary is: " <<regionObject.getStartSalary()<<std::endl;
+			
+			
+				std::cout <<"best school's average mid salary is: "<< regionObject.getMidSalary() << std::endl;
+				std::cout << "best school's percentage salary change is: " << regionObject.getPercentSalaryChange() << std::endl;
+				std::cout << std::setfill('-') << std::setw(85) << "" << std::endl<<std::endl;
+				
+
+			}
+			std::cout << "If you would like to exit, type exit otherwise you can enter a region and find out the average salaries and percentage salary change for all schools in the region" << std::endl<<std::endl;
+			std::cout << "list of regions: California, Western, Midwestern, Southern, Northeastern" << std::endl<<std::endl;
+			std::cout << std::endl;
+			input = "";
+			//std::cin >> input;
+			while(std::cin>>input){
+				std::for_each(input.begin(), input.end(), [](char& c) {
+					c = ::tolower(c);
+					});
+				input[0] = toupper(input[0]);
+				if(input == "Exit" || input == "California" || input == "Western" || input == "Midwestern" || input == "Southern" || input == "Northeastern") {
+
+					break;
+
+				}else{
+
+					std::cerr << "Please enter a valid input option: " << std::endl;
+					std::cout << std::setfill('-') << std::setw(85) << "" << std::endl;
+					continue;
+
+				}
+
+			}
+
+			//https://www.cplusplus.com/reference/cctype/toupper/
+			std::for_each(input.begin(), input.end(), [](char& c) {
+				c = ::tolower(c);
+				});
+			input[0] = toupper(input[0]);
+			//California,Western,Midwestern,Southern,Northeastern
+			if (input == "exit" || input == "Exit") {
+				exit(EXIT_FAILURE);
+
+			}
+			else {
+				//x is name of region  list
+				//y is name of degree list 
+				//RegionSalary bestSchoolInRegion(std::string region, std::vector<RegionSalary> theList);
+
+				if (input == "california" || input == "California") {
+					regionObject = NS_REGION::averageForGivenRegion(input, x);
+
+
+
+				}
+				else if (input == "western" || input == "Western") {
+					regionObject = NS_REGION::averageForGivenRegion(input, x);
+
+				}
+				else if (input == "Midwestern" || input == "midwestern") {
+					regionObject = NS_REGION::averageForGivenRegion(input, x);
+
+				}
+				else if (input == "southern" || input == "Southern") {
+					regionObject = NS_REGION::averageForGivenRegion(input, x);
+
+				}
+				else if (input == "Northeastern" || input == "northeastern") {
+					regionObject = NS_REGION::averageForGivenRegion(input, x);
+
+				}
+
+			}
+			std::cout << std::endl;
+					std::cout << std::setfill('-') << std::setw(85) << "" << std::endl;
+					std::cout << std::endl;
+
+			std::cout << "the average starting salary for all schools the region is: " << regionObject.getStartSalary() << std::endl;
+			std::cout << "the average mid salary for all schools in the given region is: " << regionObject.getMidSalary() << std::endl;
+			std::cout << "the average percentage salary increase for all schools in the given region is: " << regionObject.getPercentSalaryChange() << std::endl;
+	}
 }
-#endif // !region_h
+
+
