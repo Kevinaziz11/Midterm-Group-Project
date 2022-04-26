@@ -2,10 +2,10 @@
 #define ui_h
 #include "Region.h"
 #include "Degree.h"
-namespace NS_USERINTERFACE {
+namespace NS_USERINTERFACE{
 
 
-	//the function that will be called by main in order to take in user input and perform the specified tasks.
+//the function that will be called by main in order to take in user input and perform the specified tasks.
 	void userInterface();
 
 
