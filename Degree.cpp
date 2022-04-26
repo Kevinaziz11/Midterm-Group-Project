@@ -139,7 +139,7 @@ namespace NS_Degree {
 	}
 
 
-	void degreeListSort(std::vector<Degree>& theList, int low, int high) { //sort the list by percentChange
+	void degreeListSort(std::vector<Degree> &theList, int low, int high) { //sort the list by percentChange
 		std::vector<Degree> listOne = theList;
 
 		if (low < high)
@@ -154,7 +154,7 @@ namespace NS_Degree {
 
 		}
 
-
+		
 	}
 
 	int partitionTwo(std::vector<Degree>& theList, int low, int high)
