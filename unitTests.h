@@ -22,12 +22,38 @@ namespace NS_UTESTS {
             std::cout << "TEST ERROR" << std::endl;
             return false;
         }
-    } //tests whether Region Salary objects are created properly
+    } // tests whether Region Salary objects are created properly
+
+    
+    bool RegionSalary_Average_Test() {
+        std::vector<NS_REGION::RegionSalary> data = NS_REGION::extractRegionData();
+        NS_REGION::RegionSalary test = averageForGivenRegion("California", data);
+        if (test.getSchool() == "average of schools in the region" && test.getRegion() == "California" && test.getMidSalary() == 93132.142857142855064 && test.getStartSalary() == 51032.142857142855064 && test.getPercentSalaryChange() == 45.204586417149208444) {
+            std::cout << "Passed Region Average Test" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "TEST ERROR" << std::endl;
+            return false;
+        }
+    } // tests averageForGivenRegion function
+
+    bool RegionSalary_BestSchool_Test() {
+        std::vector<NS_REGION::RegionSalary> data = NS_REGION::extractRegionData();
+        NS_REGION::RegionSalary test = bestSchoolInRegion("California", data);
+        if (test.getRegion() == "California" && test.getSchool() == "Pomona College" && test.getMidSalary() == 101000 && test.getStartSalary() == 48600 && test.getPercentSalaryChange() == 51.881188118811884635) {
+            std::cout << "Passed Region BestSchool Test" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "TEST ERROR" << std::endl;
+            return false;
+        }
+    } // tests bestSchoolInRegion function
 
     bool RegionSalary_FileRead_Test() {
-        NS_REGION::RegionSalary test = NS_REGION::RegionSalary();
-        std::vector<NS_REGION::RegionSalary> data = test.extractRegionData();
-        if (data.empty()) {
+        std::vector<NS_REGION::RegionSalary> test = NS_REGION::extractRegionData();
+        if (test.empty()) {
             std::cout << "TEST ERROR" << std::endl;
             return false;
         }
@@ -48,7 +74,7 @@ namespace NS_UTESTS {
             std::cout << "TEST ERROR" << std::endl;
             return false;
         }
-    } //tests setPercentChange function
+    } // tests setPercentChange function
 
     bool Degree_Object_Test() {
         NS_Degree::Degree test = NS_Degree::Degree();
@@ -82,7 +108,7 @@ namespace NS_UTESTS {
     bool Degree_Average_Test() {
         std::vector<NS_Degree::Degree> test = NS_Degree::degreeFileReader();
         double output = NS_Degree::getDegreeAverage(test, 25);
-        if (output == 86976) {
+        if (output == 66660) {
             std::cout << "Passed Degree Average Test" << std::endl;
             return true;
         }
@@ -90,7 +116,34 @@ namespace NS_UTESTS {
             std::cout << "TEST ERROR" << std::endl;
             return false;
         }
-    } //tests getDegreeAverage function
+    } // tests getDegreeAverage function
+
+    bool Degree_Formatter_Test() {
+        std::string test = NS_Degree::degreeNumFormatter(50000);
+        if (test == "$50,000.000000") {
+            std::cout << "Passed Degree Formatter Test" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << test << std::endl;
+            return false;
+        }
+    } // tests degreeNumFormatter function
+
+    bool Degree_Exists_Test() {
+        NS_Degree::Degree test = NS_Degree::Degree();
+        test.setType("Ceramics");
+        std::vector<NS_Degree::Degree> data = NS_Degree::degreeFileReader();
+        std::string output = NS_Degree::degreeExists(data, test);
+        if (output == "degree does not exist") {
+            std::cout << "Passed Degree Exists Test" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "TEST ERROR" << std::endl;
+            return false;
+        }
+    } //tests degreeExists function
 
 }
 
