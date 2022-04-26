@@ -54,6 +54,18 @@ namespace NS_UTESTS {
             return false;
         }
     } // tests averageForGivenRegion function
+    bool RegionSalary_Average_Test_Fail() {
+        std::vector<NS_REGION::RegionSalary> data = NS_REGION::extractRegionData();
+        NS_REGION::RegionSalary test = averageForGivenRegion("California", data);
+        if (test.getSchool() != "average of schools in the region" && test.getRegion() != "Northeastern" && test.getMidSalary() != 90132.142857142855064 && test.getStartSalary() != 54032.142857142855064 && test.getPercentSalaryChange() != 49.204586417149208444) {
+            std::cer << "TEST FAILED!" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "TEST PASSED!" << std::endl;
+            return false;
+        }
+    } // tests averageForGivenRegion function
 
     bool RegionSalary_BestSchool_Test() {
         std::vector<NS_REGION::RegionSalary> data = NS_REGION::extractRegionData();
@@ -105,6 +117,20 @@ namespace NS_UTESTS {
             return false;
         }
     } // tests setPercentChange function
+
+    bool RegionSalary_PercentChange_Test_Fail() {
+        NS_REGION::RegionSalary test = NS_REGION::RegionSalary();
+        test.setPercentSalaryChange(50000, 100000);
+        if (test.getPercentSalaryChange() == 51) {
+            std::cerr << "TEST FAILED" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "TEST PASSED" << std::endl;
+            return false;
+        }
+    } // tests setPercentChange function
+
 
     bool Degree_Object_Test() {
         NS_Degree::Degree test = NS_Degree::Degree();
@@ -191,6 +217,7 @@ namespace NS_UTESTS {
             return false;
         }
     } //tests degreeExists function
+ 
 
 }
 
