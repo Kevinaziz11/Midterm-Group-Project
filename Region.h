@@ -19,18 +19,18 @@ namespace NS_REGION {
 
 	public:
 
-
+		
 		RegionSalary();              //constructor
 
 		RegionSalary(std::string theSchool, std::string theRegion, double theStartSalary, double theMidSalary, double thePercentSalaryChange);
 
-
+		
 		//RegionSalary(string school, string region, double startSalary, double midSalary, double percentSalaryChange, ); //constructor
-
+		
 		//returns the best school in a specified region based on percentsalarychange 
 		//TODO: come up with way to pick school based on start/mid slary as well as percent salary change
-
-
+		
+		
 		std::string getRegion();         //returns the region for the specified RegionSalary Object
 
 		std::string getSchool();        //returns the school for the specified RegionSalary Object
@@ -51,7 +51,7 @@ namespace NS_REGION {
 
 		void setPercentSalaryChange(double theStartSal, double theMidSal);
 
-
+	
 
 		//std::vector<RegionSalary> extractRegionData(); //extracts the information from the csv file
 
